@@ -1,0 +1,251 @@
+name,builder,after,timeout,sink
+Deferred,"Deferred(createPublisher: { self.emptyInt })","",0,empty
+Deferred,"Deferred(createPublisher: { self.nonEmptyInt })","",0,nonempty
+Deferred,"Deferred(createPublisher: { self.justTrue })","",0,single
+Empty,"self.emptyVoid","",0,empty
+Fail,"self.failInt","",0,failed
+Future,"future1","",0,nonempty
+Future,"future1","",0,single
+Just,"just1","",0,nonempty
+Just,"just1","",0,single
+AllSatisfy,"Publishers.AllSatisfy(upstream: arrayInt, predicate: { _ in false })","",0,nonempty
+AllSatisfy,"Publishers.AllSatisfy(upstream: emptyString, predicate: { _ in false })","",0,single
+AssertNoFailure,"Publishers.AssertNoFailure(upstream: emptyInt, prefix: String(), file: #file, line: #line)","",0,empty
+AssertNoFailure,"Publishers.AssertNoFailure(upstream: nonEmptyInt, prefix: String(), file: #file, line: #line)","",0,nonempty
+AssertNoFailure,"Publishers.AssertNoFailure(upstream: just1, prefix: String(), file: #file, line: #line)","",0,single
+AssertNoFailure,"Publishers.AssertNoFailure(upstream: arrayInt, prefix: String(), file: #file, line: #line)","",0,multiple
+Autoconnect,"emptyInt.map { _ in return String() }.multicast { PassthroughSubject<String, Never>() }.autoconnect()","",0,empty
+Autoconnect,"nonEmptyInt.map { return String($0) }.multicast { PassthroughSubject<String, Never>() }.autoconnect()","",0,nonempty
+Autoconnect,"just1.map { return String($0) }.multicast { PassthroughSubject<String, Never>() }.autoconnect()","",0,single
+Autoconnect,"arrayInt.map { return String($0) }.multicast { PassthroughSubject<String, Never>() }.autoconnect()","",0,multiple
+Breakpoint,"Publishers.Breakpoint(upstream: emptyInt, receiveSubscription: nil, receiveOutput: nil, receiveCompletion: nil)","",0,empty
+Breakpoint,"Publishers.Breakpoint(upstream: nonEmptyInt, receiveSubscription: nil, receiveOutput: nil, receiveCompletion: nil)","",0,nonempty
+Breakpoint,"Publishers.Breakpoint(upstream: just1, receiveSubscription: nil, receiveOutput: nil, receiveCompletion: nil)","",0,single
+Breakpoint,"Publishers.Breakpoint(upstream: arrayInt, receiveSubscription: nil, receiveOutput: nil, receiveCompletion: nil)","",0,multiple
+Buffer,"emptyInt.buffer(size: 10, prefetch: .keepFull, whenFull: .dropNewest)","",0,empty
+Buffer,"nonEmptyInt.buffer(size: 10, prefetch: .keepFull, whenFull: .dropNewest)","",0,nonempty
+Buffer,"justTrue.buffer(size: 10, prefetch: .keepFull, whenFull: .dropNewest)","",0,single
+Buffer,"arrayInt.buffer(size: 10, prefetch: .keepFull, whenFull: .dropNewest)","",0,multiple
+Catch,"futureFail.catch { _ in Empty<Int, Never>() }","",0,empty
+Catch,"nonEmptyInt.catch { _ in self.just1 }","",0,nonempty
+Catch,"futureFail.catch { _ in self.just1 }","",0,single
+Catch,"futureFail.catch { _ in self.arrayInt }","",0,multiple
+Collect,"arrayInt.collect()","",0,nonempty
+Collect,"emptyInt.collect()","",0,single
+CollectByCount,"emptyInt.collect(1)","",0,empty
+CollectByCount,"nonEmptyInt.collect(2)","",0,nonempty
+CollectByCount,"just1.collect(2)","",0,single
+CollectByCount,"arrayInt.collect(3)","",0,multiple
+CollectByTime,"emptyInt.collect(.byTimeOrCount(DispatchQueue(label: #function), 0, 1))","",0.1,empty
+CollectByTime,"nonEmptyInt.collect(.byTimeOrCount(DispatchQueue(label: #function), 0, 1))","",0.1,nonempty
+CollectByTime,"just1.collect(.byTimeOrCount(DispatchQueue(label: #function), 0, 1))","",0.1,single
+CollectByTime,"arrayInt.collect(.byTimeOrCount(DispatchQueue(label: #function), 0, 1))","",0.1,multiple
+CombineLatest,"Publishers.CombineLatest(emptyInt, emptyVoid)","",0,empty
+CombineLatest,"Publishers.CombineLatest(nonEmptyInt, justFalse)","",0,nonempty
+CombineLatest,"Publishers.CombineLatest(justTrue, justFalse)","",0,single
+CombineLatest,"Publishers.CombineLatest(arrayInt, arrayInt)","",0,multiple
+CombineLatest3,"Publishers.CombineLatest3(emptyInt, emptyVoid, emptyString)","",0,empty
+CombineLatest3,"Publishers.CombineLatest3(nonEmptyInt, nonEmptyInt, nonEmptyInt)","",0,nonempty
+CombineLatest3,"Publishers.CombineLatest3(justTrue, justFalse, justVoid)","",0,single
+CombineLatest3,"Publishers.CombineLatest3(arrayInt, arrayInt, arrayInt)","",0,multiple
+CombineLatest4,"Publishers.CombineLatest4(emptyInt, emptyVoid, emptyString, emptyBool)","",0,empty
+CombineLatest4,"Publishers.CombineLatest4(nonEmptyInt, nonEmptyInt, nonEmptyInt, nonEmptyInt)","",0,nonempty
+CombineLatest4,"Publishers.CombineLatest4(justTrue, justFalse, justVoid, just1)","",0,single
+CombineLatest4,"Publishers.CombineLatest4(arrayInt, arrayInt, arrayInt, arrayInt)","",0,multiple
+CompactMap,"just1.compactMap { _ in nilOptionalInt }","",0,empty
+Comparison,"Publishers.Comparison(upstream: emptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,empty
+Comparison,"Publishers.Comparison(upstream: nonEmptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,nonempty
+Comparison,"Publishers.Comparison(upstream: nonEmptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,single
+Concatenate,"Publishers.Concatenate(prefix: nonEmptyInt, suffix: nonEmptyInt)","",0,nonempty
+Concatenate,"Publishers.Concatenate(prefix: justTrue, suffix: justFalse)","",0,multiple
+Contains,"arrayInt.contains(0)","",0,nonempty
+Contains,"emptyInt.contains(0)","",0,single
+ContainsWhere,"arrayInt.contains(where: { _ in false })","",0,nonempty
+ContainsWhere,"emptyInt.contains(where: { _ in false })","",0,single
+Count,"arrayInt.count()","",0,nonempty
+Count,"emptyInt.count()","",0,single
+Debounce,"emptyInt.debounce(for: 0, scheduler: ImmediateScheduler.shared)","",0,empty
+Decode,"Publishers.Decode(upstream: emptyData, decoder: JSONDecoder()).map { error -> SomeError in error }","",0,empty
+Decode,"Publishers.Decode(upstream: justData.eraseToAnyNonEmptyPublisher(), decoder: JSONDecoder()).map { error -> SomeError in error }","",0,nonempty
+Decode,"Publishers.Decode(upstream: justData, decoder: JSONDecoder()).map { error -> SomeError in error }","",0,single
+Decode,"Publishers.Decode(upstream: arrayData, decoder: JSONDecoder()).map { error -> SomeError in error }","",0,multiple
+Delay,"Publishers.Delay(upstream: emptyInt, interval: 0.0, tolerance: 0.0, scheduler: ImmediateScheduler.shared)","",0,empty
+Delay,"Publishers.Delay(upstream: just1, interval: 0.0, tolerance: 0.0, scheduler: ImmediateScheduler.shared)","",0,single
+Delay,"Publishers.Delay(upstream: nonEmptyInt, interval: 0.0, tolerance: 0.0, scheduler: ImmediateScheduler.shared)","",0,nonempty
+Delay,"Publishers.Delay(upstream: arrayInt, interval: 0.0, tolerance: 0.0, scheduler: ImmediateScheduler.shared)","",0,multiple
+Drop,"Publishers.Drop(upstream: emptyInt, count: 1)","",0,empty
+Drop,"Publishers.Drop(upstream: arrayInt, count: 1)","",0,multiple
+DropUntilOutput,"Publishers.DropUntilOutput(upstream: emptyInt, other: just1)","",0,empty
+DropUntilOutput,"Publishers.DropUntilOutput(upstream: arrayInt, other: just1)","",0,multiple
+DropWhile,"Publishers.DropWhile(upstream: emptyInt, predicate: { _ in false })","",0,empty
+DropWhile,"Publishers.DropWhile(upstream: arrayInt, predicate: { _ in false })","",0,multiple
+Encode,"Publishers.Encode(upstream: emptyInt, encoder: JSONEncoder())","",0,empty
+Encode,"Publishers.Encode(upstream: nonEmptyInt, encoder: JSONEncoder())","",0,nonempty
+Encode,"Publishers.Encode(upstream: just1, encoder: JSONEncoder())","",0,single
+Encode,"Publishers.Encode(upstream: arrayInt, encoder: JSONEncoder())","",0,multiple
+Filter,"emptyInt.filter { _ in true }","",0,empty
+Filter,"arrayInt.filter { _ in true }","",0,multiple
+First,"emptyVoid.first()","",0,empty
+First,"nonEmptyInt.first()","",0,nonempty
+First,"nonEmptyInt.first()","",0,single
+FirstWhere,"emptyInt.first { _ in true }","",0,empty
+FlatMap,"emptyInt.flatMap { _ in self.justTrue }","",0,empty
+FlatMap,"nonEmptyInt.flatMap { _ in self.justTrue }","",0,nonempty
+FlatMap,"just1.flatMap { _ in self.justTrue }","",0,single
+FlatMap,"arrayInt.flatMap { _ in self.justTrue }","",0,multiple
+HandleEvents,"emptyInt.handleEvents()","",0,empty
+HandleEvents,"nonEmptyInt.handleEvents()","",0,nonempty
+HandleEvents,"just1.handleEvents()","",0,single
+HandleEvents,"arrayInt.handleEvents()","",0,multiple
+IgnoreOutput,"Publishers.IgnoreOutput(upstream: arrayInt)","",0,empty
+Last,"emptyInt.last()","",0,empty
+Last,"nonEmptyInt.last()","",0,nonempty
+Last,"nonEmptyInt.last()","",0,single
+LastWhere,"emptyInt.last { _ in true }","",0,empty
+MakeConnectable,"nil; let connectable = Publishers.MakeConnectable(upstream: emptyInt); cancellable = connectable.connect(); _ = connectable","",0,empty
+MakeConnectable,"nil; let connectable = Publishers.MakeConnectable(upstream: nonEmptyInt); cancellable = connectable.connect(); _ = connectable","",0,nonempty
+MakeConnectable,"nil; let connectable = Publishers.MakeConnectable(upstream: just1); cancellable = connectable.connect(); _ = connectable","",0,single
+MakeConnectable,"nil; let connectable = Publishers.MakeConnectable(upstream: arrayInt); cancellable = connectable.connect(); _ = connectable","",0,multiple
+Map,"emptyInt.map { _ in 1 }","",0,empty
+Map,"nonEmptyInt.map { _ in 1 }","",0,nonempty
+Map,"just1.map { _ in 1 }","",0,single
+Map,"arrayInt.map { _ in 1 }","",0,multiple
+MapError,"emptyInt.mapError { _ in SomeError() }","",0,empty
+MapError,"nonEmptyInt.mapError { _ in SomeError() }","",0,nonempty
+MapError,"just1.mapError { _ in SomeError() }","",0,single
+MapError,"arrayInt.mapError { _ in SomeError() }","",0,multiple
+MapKeyPath,"emptyInt.map(\.byteSwapped)","",0,empty
+MapKeyPath,"nonEmptyInt.map(\.byteSwapped)","",0,nonempty
+MapKeyPath,"just1.map(\.byteSwapped)","",0,single
+MapKeyPath,"arrayInt.map(\.byteSwapped)","",0,multiple
+MapKeyPath2,"emptyInt.map(\.byteSwapped)","",0,empty
+MapKeyPath2,"nonEmptyInt.map(\.byteSwapped)","",0,nonempty
+MapKeyPath2,"just1.map(\.byteSwapped)","",0,single
+MapKeyPath2,"arrayInt.map(\.byteSwapped)","",0,multiple
+MapKeyPath3,"emptyInt.map(\.byteSwapped)","",0,empty
+MapKeyPath3,"nonEmptyInt.map(\.byteSwapped)","",0,nonempty
+MapKeyPath3,"just1.map(\.byteSwapped)","",0,single
+MapKeyPath3,"arrayInt.map(\.byteSwapped)","",0,multiple
+MeasureInterval,"Publishers.MeasureInterval(upstream: self.emptyInt, scheduler: ImmediateScheduler.shared)","",0,empty
+MeasureInterval,"Publishers.MeasureInterval(upstream: self.nonEmptyInt, scheduler: ImmediateScheduler.shared)","",0,nonempty
+MeasureInterval,"Publishers.MeasureInterval(upstream: self.just1, scheduler: ImmediateScheduler.shared)","",0,single
+Merge,"Publishers.Merge(self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge,"Publishers.Merge(self.justTrue, self.justFalse)","",0,multiple
+Merge3,"Publishers.Merge3(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge3,"Publishers.Merge3(self.justTrue, self.justFalse, self.justTrue)","",0,multiple
+Merge4,"Publishers.Merge4(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge4,"Publishers.Merge4(self.justTrue, self.justFalse, self.justTrue, self.justFalse)","",0,multiple
+Merge5,"Publishers.Merge5(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge5,"Publishers.Merge5(self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue)","",0,multiple
+Merge6,"Publishers.Merge6(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge6,"Publishers.Merge6(self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue, self.justFalse)","",0,multiple
+Merge7,"Publishers.Merge7(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge7,"Publishers.Merge7(self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue)","",0,multiple
+Merge8,"Publishers.Merge8(self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt, self.nonEmptyInt)","",0,nonempty
+Merge8,"Publishers.Merge8(self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue, self.justFalse, self.justTrue, self.justFalse)","",0,multiple
+MergeMany,"Publishers.MergeMany(emptyInt, emptyInt)","",0,empty
+MergeMany,"Publishers.MergeMany(nonEmptyInt, nonEmptyInt)","",0,nonempty
+MergeMany,"arrayInt.merge(with: arrayInt)","",0,multiple
+Multicast,"nil; let multicast = emptyInt.multicast { PassthroughSubject<Int, Never>() }; cancellable = multicast","_ = multicast.connect()",0,empty
+Multicast,"nil; let multicast = nonEmptyInt.multicast { PassthroughSubject<Int, Never>() }; cancellable = multicast","_ = multicast.connect()",0,nonempty
+Multicast,"nil; let multicast = just1.multicast { PassthroughSubject<Int, Never>() }; cancellable = multicast","_ = multicast.connect()",0,single
+Multicast,"nil; let multicast = arrayInt.multicast { PassthroughSubject<Int, Never>() }; cancellable = multicast","_ = multicast.connect()",0,multiple
+Output,"Publishers.Output(upstream: emptyInt, range: 0..<3)","",0,empty
+Output,"Publishers.Output(upstream: arrayInt, range: 0..<3)","",0,multiple
+PrefixUntilOutput,"arrayInt.prefix(untilOutputFrom: emptyInt)","",0,multiple
+PrefixWhile,"emptyInt.prefix(while: { $0.isMultiple(of: 1) })","",0,empty
+PrefixWhile,"arrayInt.prefix(while: { $0.isMultiple(of: 1) })","",0,multiple
+Print,"emptyInt.print()","",0,empty
+Print,"nonEmptyInt.print()","",0,nonempty
+Print,"just1.print()","",0,single
+Print,"arrayInt.print()","",0,multiple
+ReceiveOn,"emptyInt.receive(on: ImmediateScheduler.shared)","",0,empty
+ReceiveOn,"nonEmptyInt.receive(on: ImmediateScheduler.shared)","",0,nonempty
+ReceiveOn,"just1.receive(on: ImmediateScheduler.shared)","",0,single
+ReceiveOn,"arrayInt.receive(on: ImmediateScheduler.shared)","",0,multiple
+Reduce,"arrayInt.reduce(-1) { result, current in result + current }","",0,nonempty
+Reduce,"emptyInt.reduce(-1) { result, current in result + current }","",0,single
+RemoveDuplicates,"emptyInt.removeDuplicates(by: { _, _ in false })","",0,empty
+RemoveDuplicates,"nonEmptyInt.removeDuplicates(by: { _, _ in true })","",0,nonempty
+RemoveDuplicates,"just1.removeDuplicates(by: { _, _ in true })","",0,single
+RemoveDuplicates,"arrayInt.removeDuplicates(by: { _, _ in false })","",0,multiple
+ReplaceEmpty,"emptyInt.replaceEmpty(with: 1)","",0,nonempty
+ReplaceEmpty,"just1.replaceEmpty(with: 1)","",0,single
+ReplaceEmpty,"arrayInt.replaceEmpty(with: 1)","",0,multiple
+ReplaceError,"just1.replaceError(with: 1)","",0,single
+ReplaceError,"nonEmptyInt.replaceError(with: 1)","",0,nonempty
+ReplaceError,"arrayInt.replaceError(with: 1)","",0,multiple
+Retry,"emptyInt.retry(1)","",0,empty
+Retry,"nonEmptyInt.retry(1)","",0,nonempty
+Retry,"just1.retry(1)","",0,single
+Retry,"arrayInt.retry(1)","",0,multiple
+Scan,"emptyInt.scan(-1) { previous, current in previous*current }","",0,empty
+Scan,"nonEmptyInt.scan(-1) { previous, current in previous*current }","",0,nonempty
+Scan,"just1.scan(-1) { previous, current in previous*current }","",0,single
+Scan,"arrayInt.scan(-1) { previous, current in previous*current }","",0,multiple
+Sequence,"Publishers.Sequence<[String], Never>(sequence: [])","",0,empty
+Sequence,"Publishers.Sequence<[Int], SomeError>(sequence: [1, 2])","",0,multiple
+SetFailureType,"emptyInt.setFailureType(to: SomeError.self)","",0,empty
+SetFailureType,"nonEmptyInt.setFailureType(to: SomeError.self)","",0,nonempty
+SetFailureType,"just1.setFailureType(to: SomeError.self)","",0,single
+SetFailureType,"arrayInt.setFailureType(to: SomeError.self)","",0,multiple
+Share,"Publishers.Share(upstream: emptyInt)","",0,empty
+Share,"Publishers.Share(upstream: nonEmptyInt)","",0,nonempty
+Share,"Publishers.Share(upstream: just1)","",0,single
+Share,"Publishers.Share(upstream: arrayInt)","",0,multiple
+SubscribeOn,"emptyInt.subscribe(on: ImmediateScheduler.shared)","",0,empty
+SubscribeOn,"nonEmptyInt.subscribe(on: ImmediateScheduler.shared)","",0,nonempty
+SubscribeOn,"just1.subscribe(on: ImmediateScheduler.shared)","",0,single
+SubscribeOn,"arrayInt.subscribe(on: ImmediateScheduler.shared)","",0,multiple
+SwitchToLatest,"Publishers.SwitchToLatest(upstream: Just(emptyInt))","",0,empty
+SwitchToLatest,"Publishers.SwitchToLatest(upstream: Just(nonEmptyInt))","",0,nonempty
+SwitchToLatest,"Publishers.SwitchToLatest(upstream: Just(just1))","",0,single
+SwitchToLatest,"Publishers.SwitchToLatest(upstream: [self.justTrue, self.justFalse].publisher)","",0,multiple
+Throttle,"emptyInt.throttle(for: 0, scheduler: ImmediateScheduler.shared, latest: false)","",0,empty
+Throttle,"nonEmptyInt.throttle(for: 0, scheduler: ImmediateScheduler.shared, latest: false)","",0,nonempty
+Throttle,"just1.throttle(for: 0, scheduler: ImmediateScheduler.shared, latest: false)","",0,single
+Throttle,"arrayInt.throttle(for: 0, scheduler: ImmediateScheduler.shared, latest: false)","",0,multiple
+TryAllSatisfy,"Publishers.TryAllSatisfy(upstream: arrayInt, predicate: { _ in false })","",0,nonempty
+TryAllSatisfy,"Publishers.TryAllSatisfy(upstream: emptyBool, predicate: { _ in false })","",0,single
+TryCatch,"futureFail.tryCatch { _ in Empty<Int, Never>() }","",0,empty
+TryCatch,"futureFail.tryCatch { _ in self.nonEmptyInt }","",0,nonempty
+TryCatch,"futureFail.tryCatch { _ in self.just1 }","",0,single
+TryCatch,"futureFail.tryCatch { _ in self.arrayInt }","",0,multiple
+TryCompactMap,"just1.tryCompactMap { _ in self.nilOptionalInt }","",0,empty
+TryCompactMap,"arrayInt.tryCompactMap { _ in self.just1 }","",0,multiple
+TryComparison,"Publishers.TryComparison(upstream: emptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,empty
+TryComparison,"Publishers.TryComparison(upstream: nonEmptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,nonempty
+TryComparison,"Publishers.TryComparison(upstream: nonEmptyInt, areInIncreasingOrder: {  $0 < $1 })","",0,single
+TryContainsWhere,"arrayInt.tryContains(where: { _ in false })","",0,nonempty
+TryContainsWhere,"emptyInt.tryContains(where: { _ in false })","",0,single
+TryDropWhile,"Publishers.TryDropWhile(upstream: emptyInt, predicate: { _ in false })","",0,empty
+TryDropWhile,"Publishers.TryDropWhile(upstream: arrayInt, predicate: { _ in false })","",0,multiple
+TryFilter,"emptyInt.tryFilter { _ in true }","",0,empty
+TryFilter,"arrayInt.tryFilter { _ in true }","",0,multiple
+TryFirstWhere,"emptyInt.tryFirst { _ in true }","",0,empty
+TryLastWhere,"emptyInt.tryLast { _ in true }","",0,empty
+TryMap,"emptyInt.tryMap { _ in 1 }","",0,empty
+TryMap,"nonEmptyInt.tryMap { _ in 1 }","",0,nonempty
+TryMap,"just1.tryMap { _ in 1 }","",0,single
+TryMap,"arrayInt.tryMap { _ in 1 }","",0,multiple
+TryPrefixWhile,"emptyInt.tryPrefix(while: { $0.isMultiple(of: 1) })","",0,empty
+TryPrefixWhile,"arrayInt.tryPrefix(while: { $0.isMultiple(of: 1) })","",0,multiple
+TryReduce,"arrayInt.tryReduce(-1) { result, current in result + current }","",0,nonempty
+TryReduce,"emptyInt.tryReduce(-1) { result, current in result + current }","",0,single
+TryRemoveDuplicates,"emptyInt.tryRemoveDuplicates(by: { _, _ in false })","",0,empty
+TryRemoveDuplicates,"nonEmptyInt.tryRemoveDuplicates(by: { _, _ in true })","",0,nonempty
+TryRemoveDuplicates,"just1.tryRemoveDuplicates(by: { _, _ in true })","",0,single
+TryRemoveDuplicates,"arrayInt.tryRemoveDuplicates(by: { _, _ in false })","",0,multiple
+TryScan,"emptyInt.tryScan(-1) { previous, current in previous*current }","",0,empty
+TryScan,"nonEmptyInt.tryScan(-1) { previous, current in previous*current }","",0,nonempty
+TryScan,"just1.tryScan(-1) { previous, current in previous*current }","",0,single
+TryScan,"arrayInt.tryScan(-1) { previous, current in previous*current }","",0,multiple
+Zip,"Publishers.Zip(emptyBool, Empty<String, Never>())","",0,empty
+Zip,"Publishers.Zip(nonEmptyInt, just1)","",0,nonempty
+Zip,"Publishers.Zip(future1, just1)","",0,single
+Zip3,"Publishers.Zip3(emptyInt, emptyString, emptyBool)","",0,empty
+Zip3,"Publishers.Zip3(nonEmptyInt, nonEmptyInt, nonEmptyInt)","",0,nonempty
+Zip3,"Publishers.Zip3(future1, just1, justVoid)","",0,single
+Zip4,"Publishers.Zip4(emptyInt, emptyString, emptyBool, emptyVoid)","",0,empty
+Zip4,"Publishers.Zip4(nonEmptyInt, nonEmptyInt, nonEmptyInt, nonEmptyInt)","",0,nonempty
+Zip4,"Publishers.Zip4(future1, just1, justVoid, justTrue)","",0,single

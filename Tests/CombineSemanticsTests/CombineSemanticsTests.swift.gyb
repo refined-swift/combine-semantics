@@ -1,0 +1,162 @@
+% import csv
+% source = '../../resources/tests.csv'
+// Generated with gyb. Do not edit.
+
+import Combine
+@testable import CombineSemantics
+import XCTest
+
+final class CombineSemanticsTests: XCTestCase {
+    struct SomeError: Swift.Error, Decodable {}
+
+    var cancellable: Cancellable?
+
+    var arrayInt: Publishers.Sequence<[Int], Never> { [1,1,2,3,1].publisher }
+    var arrayData: Publishers.Sequence<[Data], Never> { ["{}".data(using: .utf8)!, "{}".data(using: .utf8)!].publisher }
+    var emptyBool: Empty<Int, Never> { Empty<Int, Never>() }
+    var emptyData: Empty<Data, Never> { Empty<Data, Never>() }
+    var emptyFalible: Empty<Int, SomeError> { Empty<Int, SomeError>() }
+    var emptyInt: Empty<Int, Never> { Empty<Int, Never>() }
+    var emptyString: Empty<Int, Never> { Empty<Int, Never>() }
+    var emptyVoid: Empty<Void, Never> { Empty<Void, Never>() }
+    var failInt: Fail<Int, SomeError> { Fail(error: SomeError()) }
+    var future1: Future<Int, Never> { Future({$0(.success(1))}) }
+    var futureFail: Future<Int, SomeError> { Future({$0(.failure(SomeError()))}) }
+    var just1: Just<Int> { Just(1) }
+    var justData: Just<Data> { Just("{}".data(using: .utf8)!) }
+    var justFalse: Just<Bool> { Just(false) }
+    var justTrue: Just<Bool> { Just(true) }
+    var justVoid: Just<Void> { Just(Void()) }
+    var nilOptionalInt: Int? { nil }
+    var nonEmptyInt: AnyNonEmptyPublisher<Int, Never> { Publishers.Concatenate(prefix: just1, suffix: just1 ).eraseToAnyNonEmptyPublisher() }
+% with open(source) as file:
+%   for row in csv.DictReader(file):
+%     publisher = row['name']
+%     builder = row['builder']
+%     after = row['after']
+%     timeout = row['timeout']
+%     sink = row['sink']
+%     infix = publisher.replace('.', '', 1)
+
+%     if sink == 'empty':
+    func test${infix}SendsNoValue() {
+        let expectation = self.expectation(description: #function)
+        var finished = false
+        cancellable = ${builder}
+            .sink { result in
+                switch result {
+                case .finished:
+                    finished = true
+                case .failure:
+                    XCTFail()
+                }
+                expectation.fulfill()
+            } receiveValue: { value in
+                XCTFail()
+            }
+        ${after}
+        wait(for: [expectation], timeout: ${timeout})
+        XCTAssertTrue(finished)
+    }
+%     elif sink == 'single':
+    func test${infix}SendsSingleValue() {
+        let expectation = self.expectation(description: #function)
+        var finished = false
+        var values = 0
+        cancellable = ${builder}
+            .eraseToAnySingleValuePublisher()
+            .sink { result in
+                switch result {
+                case .finished:
+                    finished = true
+                case .failure:
+                    XCTFail()
+                }
+                expectation.fulfill()
+            } receiveValue: { value in
+                values += 1
+            }
+        ${after}
+        wait(for: [expectation], timeout: ${timeout})
+        XCTAssertTrue(finished)
+        XCTAssertEqual(values, 1)
+    }
+%     elif sink == 'multiple':
+    func test${infix}SendsMultipleValues() {
+        let expectation = self.expectation(description: #function)
+        var finished = false
+        var values = 0
+        cancellable = ${builder}
+            .sink { result in
+                switch result {
+                case .finished:
+                    finished = true
+                case .failure:
+                    XCTFail()
+                }
+                expectation.fulfill()
+            } receiveValue: { value in
+                values += 1
+            }
+        ${after}
+        wait(for: [expectation], timeout: ${timeout})
+        XCTAssertTrue(finished)
+        XCTAssertGreaterThan(values, 1)
+    }
+%     elif sink == 'failed':
+    func test${infix}Fails() {
+        let expectation = self.expectation(description: #function)
+        var failed = false
+        cancellable = ${builder}
+            .eraseToAnySingleValuePublisher()
+            .sink { result in
+                switch result {
+                case .finished:
+                    XCTFail()
+                case .failure:
+                    failed = true
+                }
+                expectation.fulfill()
+            } receiveValue: { value in
+                XCTFail()
+            }
+        ${after}
+        wait(for: [expectation], timeout: ${timeout})
+        XCTAssertTrue(failed)
+    }
+%     elif sink == 'nonempty':
+    func test${infix}SendsSomeValue() {
+        let expectation = self.expectation(description: #function)
+        var finished = false
+        var values = 0
+        cancellable = ${builder}
+            .eraseToAnyNonEmptyPublisher()
+            .sink { result in
+                switch result {
+                case .finished:
+                    finished = true
+                case .failure:
+                    XCTFail()
+                }
+                if values == 0 {
+                    expectation.fulfill()
+                }
+            } receiveValue: { value in
+                values += 1
+                if values == 1 && !finished {
+                    expectation.fulfill()
+                }
+            }
+        ${after}
+        wait(for: [expectation], timeout: ${timeout})
+        XCTAssertGreaterThan(values, 0)
+    }
+
+%     elif sink == 'skip':
+    // skipping ${publisher}
+%     else:
+    #error ${publisher}: Invalid sink: ${sink}
+%     end
+%   end
+% end
+}
