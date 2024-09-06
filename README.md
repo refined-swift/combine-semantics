@@ -22,7 +22,7 @@ The sample implementation focuses only on *single value* publishers. This proper
 - fail if it has already received a value
 - receive more than one value
 
-In order to make conditional conformance to `SingleValueSemantics` more fine-grained, another protocol is declared, `SingleValueSemantics` that models *non-empty* publishers
+In order to make conditional conformance to `SingleValueSemantics` more fine-grained, another protocol is declared, `NonEmptySemantics` that models *non-empty* publishers
 
 The codebase is structured in the following folders:
 
